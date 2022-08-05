@@ -5,16 +5,16 @@ class PaymentDataController extends BasesController {
     constructor() {
         super();
 
-        this.register = this.register.bind(this);
+        this.paymentAction = this.paymentAction.bind(this);
     };
 
-    async register({ request }) {
+    async paymentAction({ request }) {
         try {
             const data = request.only(['amount', 'billet']);
 
             const resp = await PaymentData.payment(data);
 
-            return this.handleResponse(resp)
+            return this.handleResponse(resp);
         } catch (error) {
             return this.handleError(error);
         };

@@ -7,7 +7,7 @@ export default class PaymentData extends BaseModel {
   public id: string;
 
   @column()
-  public transactionId: string;
+  public transactiondId: string;
 
   @column()
   public is_deleted: boolean;

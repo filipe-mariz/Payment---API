@@ -4,4 +4,4 @@ Route.get('/', async () => {
   return { hello: 'world' }
 })
 
-Route.post('/', 'UsersController.register');
+Route.post('/', 'PaymentDataController.paymentAction');

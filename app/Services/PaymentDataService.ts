@@ -1,39 +1,24 @@
 import HandleServices from './BaseServices';
 import PaymentData from 'App/Models/PaymentData';
-import Database from '@ioc:Adonis/Lucid/Database';
 import axios from 'axios';
 
 class PaymentService extends HandleServices {
     public async payment(data: object) {
-        const trx = await Database.transaction();
+        const transactiondId = await this.callExternalPayment(data);
 
-        try {
-            const transactiondId = await this.callExternalPayment(data, trx);
-
-            this.registerPaymentDatabase(transactiondId, trx);
-
-            await trx.commit();
-
-            return transactiondId;
-        } catch (error) {
-            await trx.rollback();
-
-            throw error;
-        };
+        return this.registerPaymentDatabase(transactiondId);
     };
 
-    protected async callExternalPayment(data: object, trx: any) {
+    protected async callExternalPayment(data: object) {
         const resp = await axios.post(`${process.env.URL}`, { data }, {
             headers: { 'Content-Type': 'aplicattion/json' }
         });
 
-        trx;
-
-        return resp.data.transactiondId;
+        return resp.data;
     };
 
-    protected registerPaymentDatabase(transactionId: string, trx: any) {
-        return PaymentData.create({ transactionId }, trx);
+    protected registerPaymentDatabase(transactionId: object) {
+        return PaymentData.create(transactionId);
     };
 };
 
