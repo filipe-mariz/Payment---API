@@ -1,7 +1,7 @@
 import BasesController from "./BasesController";
-import CategoriesServices from "App/Services/CategoriesServices";
+import PaymentData from 'App/Services/PaymentDataService';
 
-export default class CategoriesController extends BasesController {
+class PaymentDataController extends BasesController {
     constructor() {
         super();
 
@@ -10,13 +10,15 @@ export default class CategoriesController extends BasesController {
 
     async register({ request }) {
         try {
-            const data = request.all();
+            const data = request.only(['amount', 'billet']);
 
-            const resp = await CategoriesServices.create(data);
+            const resp = await PaymentData.payment(data);
 
             return this.handleResponse(resp)
         } catch (error) {
             return this.handleError(error);
         };
     };
-}
+};
+
+export default PaymentDataController;
