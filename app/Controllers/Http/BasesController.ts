@@ -10,9 +10,9 @@ export default class BasesController {
         }
     }
 
-    handleError({ response }) {
-        return response.status(400).json({
-            message: 'Some unexpected error happened'
-        })
-    }
+    // handleError({ response }) {
+    //     return response.status(400).json({
+    //         message: 'Some unexpected error happened'
+    //     })
+    // }
 }

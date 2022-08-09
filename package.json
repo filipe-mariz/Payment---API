@@ -45,6 +45,7 @@
     "@adonisjs/core": "~5.0.4-preview-rc",
     "@adonisjs/lucid": "^10.0.0",
     "@adonisjs/repl": "^1.0.0",
+    "@mrmgomes/boleto-utils": "^1.2.0",
     "adonis5-scheduler": "^2.0.2",
     "axios": "^0.21.1",
     "chalk": "^5.0.0",

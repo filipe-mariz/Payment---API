@@ -1,25 +1,37 @@
+import PaymentDataRepository from 'App/Repositories/PaymentDataRepository';
+import { validarBoleto } from '@mrmgomes/boleto-utils';
 import HandleServices from './BaseServices';
-import PaymentData from 'App/Models/PaymentData';
+import Utils from '../../utils/utils';
 import axios from 'axios';
 
+interface PaymentBody {
+    billet: string
+}
+
 class PaymentService extends HandleServices {
-    public async payment(data: object) {
+    public async payment(data: PaymentBody) {
         const transactiondId = await this.callExternalPayment(data);
 
-        return this.registerPaymentDatabase(transactiondId);
+        const createRegister = await PaymentDataRepository.create({ transactiondId })
+
+        return {
+            data: createRegister && createRegister,
+            payload: validarBoleto(data.billet)
+        }
     };
 
     protected async callExternalPayment(data: object) {
-        const resp = await axios.post(`${process.env.URL}`, { data }, {
-            headers: { 'Content-Type': 'aplicattion/json' }
-        });
+        try {
+            const resp = await axios.post(`${process.env.URL}`, {
+                body: data,
+                headers: { 'Content-Type': 'aplicattion/json' }
+            });
 
-        return resp.data;
-    };
-
-    protected registerPaymentDatabase(transactionId: object) {
-        return PaymentData.create(transactionId);
+            return Utils.formatResponse(resp.data);
+        } catch (error) {
+            throw new Error('EXTERNAL_SERVER_ERROR');
+        };
     };
 };
 
-export default new PaymentService();
+export default PaymentService;

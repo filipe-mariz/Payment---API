@@ -2,8 +2,12 @@ import BasesController from "./BasesController";
 import PaymentData from 'App/Services/PaymentDataService';
 
 class PaymentDataController extends BasesController {
+    service: PaymentData;
+
     constructor() {
         super();
+
+        this.service = new PaymentData();
 
         this.paymentAction = this.paymentAction.bind(this);
     };
@@ -12,11 +16,11 @@ class PaymentDataController extends BasesController {
         try {
             const data = request.only(['amount', 'billet']);
 
-            const resp = await PaymentData.payment(data);
+            const resp = await this.service.payment(data);
 
             return this.handleResponse(resp);
         } catch (error) {
-            return this.handleError(error);
+            throw new Error('INTERNAL_SERVER_ERROR');
         };
     };
 };

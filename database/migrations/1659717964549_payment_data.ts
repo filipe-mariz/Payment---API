@@ -10,7 +10,7 @@ export default class PaymentData extends BaseSchema {
     try {
       this.schema.createTable(this.tableName, table => {
         table.uuid('id').primary().index();
-        table.string('transactionId').notNullable();
+        table.string('transactiond_id').notNullable();
         table.boolean('is_deleted').defaultTo(false);
         table.timestamps(true)
       });
