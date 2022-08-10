@@ -1,7 +1,8 @@
-import Route from '@ioc:Adonis/Core/Route'
+import Route from '@ioc:Adonis/Core/Route';
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
-
-Route.post('/', 'PaymentDataController.paymentAction');
+Route.post('/payment', 'PaymentDataController.paymentAction');
+Route.group(() => {
+  Route.post('/', 'ClientsController.createAction');
+  Route.get('/:user_id', 'ClientsController.indexAction');
+  Route.get('/get-payment-by-client/:user_id', 'ClientsController.getAllPaymentByClientServiceAction');
+}).prefix('/clients');

@@ -1,18 +1,28 @@
 import PaymentDataRepository from 'App/Repositories/PaymentDataRepository';
+import ClientRepository from 'App/Repositories/ClientRepository';
 import { validarBoleto } from '@mrmgomes/boleto-utils';
-import HandleServices from './BaseServices';
 import Utils from '../../utils/utils';
 import axios from 'axios';
 
 interface PaymentBody {
-    billet: string
+    billet: string,
+    client_id: string
 }
 
-class PaymentService extends HandleServices {
+class PaymentService {
     public async payment(data: PaymentBody) {
-        const transactiondId = await this.callExternalPayment(data);
+        const [ transactiondId, clients ] = await Promise.all([
+            this.callExternalPayment(data),
+            ClientRepository.index({ id: data.client_id })
+        ])
 
-        const createRegister = await PaymentDataRepository.create({ transactiondId })
+        if (!clients) throw new Error('CLIENTS_NOT_FOUND');
+
+        const createRegister = await PaymentDataRepository.create({
+            transactiondId,
+            client_id: data.client_id,
+            billet: data.billet
+        })
 
         return {
             data: createRegister && createRegister,

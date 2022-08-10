@@ -2,9 +2,7 @@ import BasesController from "./BasesController";
 import PaymentData from 'App/Services/PaymentDataService';
 
 class PaymentDataController extends BasesController {
-    service: PaymentData;
-
-    constructor() {
+    constructor(public service: PaymentData) {
         super();
 
         this.service = new PaymentData();
@@ -14,7 +12,7 @@ class PaymentDataController extends BasesController {
 
     async paymentAction({ request }) {
         try {
-            const data = request.only(['amount', 'billet']);
+            const data = request.only(['amount', 'billet', 'client_id']);
 
             const resp = await this.service.payment(data);
 
