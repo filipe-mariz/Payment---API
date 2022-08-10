@@ -45,7 +45,7 @@ Para roadr a aplicação, acesse a pasta do projeto via terminal e rode o comand
 
 ## Rotas 
 A aplicação tem 4 rotas. Você precisa em primeiro lugar criar um novo cliente utilizando um metodo POST. Na mesma rota, porém com o GET e o ID do cliente criado, você poderá visualizar os dados.
-Agora, com o id do cliente, você poderá realizar um pagamento. Na última rota, será possivel ver todos pagamentos realizados por um client
+Agora, com o id do cliente, você poderá realizar um pagamento. Na última rota, será possivel ver todos pagamentos realizados por um cliente. A documentação Postman que pode ser importada está na raiz do projeto chamada DocPostman.json
 
 
 
